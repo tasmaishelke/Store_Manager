@@ -1,0 +1,101 @@
+1. Make a package.json file
+
+2. Install all the neccessary dev dependencies and dependencies
+
+3. Make a base server in app.js
+    const express = require('express');
+    const app = express();
+    const port = process.env.PORT || 3000
+
+    app.get('/', (req, res) =>
+    {
+        res.send("hello world")
+    })
+    const start = async () =>
+    {
+        try
+        {
+            app.listen(port, console.log(`Server is listening on port ${port}`));
+        }
+        catch(error)
+        {
+
+        }
+    }
+    start()
+
+4. Create a .env file and store the connection string in MONGO_URI varaible
+
+5. Create a database folder and create a file connect.js
+    Require the prebuiltdatabase module in that file and export the selfmade module as well
+    const mongoose = require('mongoose');
+    const connectDB = (url) =>
+    {
+        return mongoose.connect(url)
+    }
+
+    module.exports = connectDB
+
+6. Require the above module as well as dotenv module in app.js and pass the connectDB
+    function to start function and pass the mongo_uri varaible as parameter  
+
+7. Now your database is connected and server is live
+
+8. Create a controllers folder and create a controller.js file
+    Create the functions which do the exection of tasks and then export the functions
+
+9. Create a routes folder and create a routes.js file
+    Require the controller.js file in routes.js and setup all the routes required and 
+    export the routes function back to app.js
+
+10. In app.js require the routes.js module and pass it to the builtin middleware 
+    app.use('some path', routes.js)
+
+11. use browser to see the Data 
+
+12. Create a models folder and create a models.js file
+    create a schema accodring to the data stored in data.json file or in mongodb 
+    const storeSchema = new mongoose.Schema(
+    {
+        name : 
+        {
+            type : String,
+            required : [true, 'Product name must be Provided']
+        },
+        price : 
+        {
+            type : Number,
+            required : [true, 'product price must be provided']
+        },
+        featured :
+        {
+            type : Boolean,
+            default : false
+        },
+        rating : 
+        {
+            type : Number,
+            default : 4.5
+        },
+        createdAt : 
+        {
+            type : Date,
+            default : Date.now()
+        },
+        company : 
+        {
+            type : String,
+            enum : 
+            {
+            values : ['ikea', 'liddy', 'caressa', 'marcos'],
+            message : '{values} is not supported'
+            }
+        }
+    })
+
+    module.exports = mongoose.model('Product', storeSchema)
+
+13. use the schema in controller.js 
+
+
+
